@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'net/http'
+require 'slack-notifier'
+
+require_relative 'config'
+require_relative 'slack_common'
+
+# TODO remove hardcoded message parameters username, icon and message contents;
+#      maybe use a base JSON message file as template and insert GIF?
+
+# TODO extract hardcoded Giphy API key into config file
+
+channel   = get_slack_channel(SLACK_CONFIG, ARGV[1])
+slack_url = get_slack_url(SLACK_CONFIG, ARGV[2])
+
+tags      = ARGV[0].split(' ').join('+')
+giphy_url = "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=g&tag=#{tags}"
+
+def get_response(uri, limit = 10)
+  response = Net::HTTP.get_response(uri)
+  case response
+  when Net::HTTPRedirection
+    if limit == 0
+      response
+    else
+      get_response(URI.parse(response['location']), limit - 1)
+    end
+  else
+    response
+  end
+end
+
+response  = get_response(URI.parse(giphy_url))
+result    = JSON.parse(response.body)
+
+notifier = Slack::Notifier.new slack_url, channel: channel, username: 'CoffeeBot', icon_emoji: ':coffee:'
+
+if result['meta']['status'] == 200
+  puts "Showing #{result['data']['url']}."
+  notifier.ping "*<#{result['data']['url']}|Coffee time!>*"
+else
+  STDERR.puts "Error: #{result['meta']['msg']}"
+end

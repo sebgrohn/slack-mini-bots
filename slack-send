@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'json'
+require 'pp'
+require 'slack-notifier'
+
+require_relative 'config'
+require_relative 'slack_common'
+
+channel   = get_slack_channel(SLACK_CONFIG, ARGV[1])
+slack_url = get_slack_url(SLACK_CONFIG, ARGV[2])
+
+message = JSON.parse(File.read(ARGV[0]))
+message.delete('channel')
+
+notifier = Slack::Notifier.new slack_url, channel: channel
+
+puts "Posting:"
+PP.pp message, $>, 160
+notifier.ping message['text'], message
