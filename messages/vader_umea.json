@@ -1,0 +1,14 @@
+{
+	"channel":      "C043KK1LL",
+        "username":     "VaderBot",
+        "icon_emoji":   ":umbrella:",
+	"unfurl_links": true,
+	"text":         "<http://www.yr.no/sted/Sverige/Västerbotten/Umeå/|Dagens Umeå-väder:>",
+	"attachments": [
+		{
+			"title":       "Værvarsel time for time for  Umeå",
+			"title_link":  "http://www.yr.no/sted/Sverige/Västerbotten/Umeå/time_for_time.html",
+			"image_url":   "http://www.yr.no/sted/Sverige/Västerbotten/Umeå/meteogram.png"
+		}
+	]
+}
