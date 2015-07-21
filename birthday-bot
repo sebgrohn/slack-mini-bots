@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'date'
+require 'slack-notifier'
+
+require_relative 'slack_common'
+
+channel   = get_slack_channel(ARGV[1], ARGV[0])
+slack_url = get_slack_url(ARGV[1], ARGV[2])
+
+birthdays = [
+  # DEBUG
+  #{ name: '@test', when: Date.today },
+  #{ name: '@tesk', when: Date.today + 1 },
+  #{ name: '@tesp', when: Date.today + 2 },
+
+  #{ name: '@', when: Date.parse('') },
+]
+
+today          = Date.today
+tomorrow       = today + 1
+tomorrowmorrow = today + 2
+
+birthdays_today = birthdays.find_all do |x|
+  if today.saturday? or today.sunday?
+    false
+  else
+    x[:when].month == today.month and x[:when].day == today.day
+  end
+end
+birthdays_coming = birthdays.find_all do |x|
+  unless today.friday?
+    false
+  else
+    (x[:when].month == tomorrow.month and x[:when].day == tomorrow.day) or (x[:when].month == tomorrowmorrow.month and x[:when].day == tomorrowmorrow.day)
+  end
+end
+
+notifier = Slack::Notifier.new slack_url, channel: channel, username: 'BirthdayBot', icon_emoji: ':birthday:'
+
+if birthdays_today.empty? and birthdays_coming.empty?
+  puts "Ingen att gratulera."
+elsif not birthdays_today.empty? and not birthdays_coming.empty?
+  puts "Gratulerar #{birthdays_today.map { |x| x[:name] }.join(', ')} samt #{birthdays_coming.map { |x| x[:name] }.join(', ')}."
+  notifier.ping "Vi gratulerar #{birthdays_today.map { |x| "*#{x[:name]}*" }.join(' och ')} som *fyller år idag*, samt #{birthdays_coming.map { |x| "*#{x[:name]}*" }.join(' och ')} som *fyller år i helgen!*"
+elsif not birthdays_today.empty?
+  puts "Gratulerar #{birthdays_today.map { |x| x[:name] }.join(', ')}."
+  notifier.ping "Idag gratulerar vi #{birthdays_today.map { |x| "*#{x[:name]}*" }.join(' och ')} som *fyller år!*"
+elsif not birthdays_coming.empty?
+  puts "Gratulerar #{birthdays_coming.map { |x| x[:name] }.join(', ')}."
+  notifier.ping "Idag gratulerar vi #{birthdays_coming.map { |x| "*#{x[:name]}*" }.join(' och ')} som *fyller år i helgen!*"
+end
