@@ -6,6 +6,12 @@ Small utility commands for webhooking into Slack (http://www.slask.com).
 * `slack-send`: post general Slack messages specified by JSON file contents.
 * `giphy-bot`: post random GIF from Giphy by given search term(s).
 
+## Requirements
+
+Written in Ruby and requires the `slack-notifier` gem: 
+
+```gem install slack-notifier```
+
 ## Configuration
 
 Configuration is done in the Ruby file `config.rb`; use `config.rb.template` as a template, as shown below.
