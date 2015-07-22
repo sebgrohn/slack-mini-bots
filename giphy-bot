@@ -4,7 +4,6 @@
 require 'net/http'
 require 'slack-notifier'
 
-require_relative 'config'
 require_relative 'slack_common'
 
 # TODO remove hardcoded message parameters username, icon and message contents;
@@ -12,8 +11,8 @@ require_relative 'slack_common'
 
 # TODO extract hardcoded Giphy API key into config file
 
-channel   = get_slack_channel(SLACK_CONFIG, ARGV[1])
-slack_url = get_slack_url(SLACK_CONFIG, ARGV[2])
+channel   = get_slack_channel(ARGV[2], ARGV[1])
+slack_url = get_slack_url(ARGV[2], ARGV[3])
 
 tags      = ARGV[0].split(' ').join('+')
 giphy_url = "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=g&tag=#{tags}"
