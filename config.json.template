@@ -1,0 +1,45 @@
+{
+  "teams": {
+    "team1": {
+      "urls": {
+        "webhook1": "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/xxxxxxxxxxxxxxxxxxxxxxxx",
+        "webhook2": "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/xxxxxxxxxxxxxxxxxxxxxxxx",
+        ...
+      },
+      "channels": {
+        "@user1": "Uxxxxxxxx",
+        "@user2": "Uxxxxxxxx",
+        ...
+        
+        "#channel1": "Cxxxxxxxx",
+        "#channel2": "Cxxxxxxxx",
+        ...
+      },
+      "default_url":     "webhook1",
+      "default_channel": "@user1"
+    },
+
+    "team2": {
+      "urls": {
+        "webhookA": "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/xxxxxxxxxxxxxxxxxxxxxxxx",
+        "webhookB": "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/xxxxxxxxxxxxxxxxxxxxxxxx",
+        ...
+      },
+      "channels": {
+        "@userA": "Uxxxxxxxx",
+        "@userB": "Uxxxxxxxx",
+        ...
+        
+        "#channelA": "Cxxxxxxxx",
+        "#channelB": "Cxxxxxxxx",
+        ...
+      },
+      "default_url":     "webhookA",
+      "default_channel": "@userA"
+    },
+
+    ...
+  },
+
+  "default_team": "team1"
+}

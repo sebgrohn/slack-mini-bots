@@ -1,5 +1,5 @@
 # slack-mini-bots
-Small utility commands for webhooking into Slack (http://www.slask.com).
+Small utility commands for webhooking into [Slack](http://www.slask.com/).
 
 
 ## Included scripts
@@ -17,7 +17,7 @@ Written in Ruby and requires the `slack-notifier` gem:
 
 ## Configuration
 
-Configuration is done in the Ruby file `config.rb`; see the file `config.rb.template`
+Configuration is done in the JSON file `config.json`; see the file `config.json.template`
 for a reference to what the configuration should look like.
 
 Points of interest:
