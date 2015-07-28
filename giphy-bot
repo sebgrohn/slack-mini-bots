@@ -14,8 +14,8 @@ require_relative 'slack_common'
 channel   = get_slack_channel(ARGV[2], ARGV[1])
 slack_url = get_slack_url(ARGV[2], ARGV[3])
 
-tags      = ARGV[0].split(' ').join('+')
-giphy_url = "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=g&tag=#{tags}"
+tags = ARGV[0].split(' ')
+url  = "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=g&tag=#{tags.join('+')}"
 
 def get_response(uri, limit = 10)
   response = Net::HTTP.get_response(uri)
@@ -31,14 +31,17 @@ def get_response(uri, limit = 10)
   end
 end
 
-response  = get_response(URI.parse(giphy_url))
-result    = JSON.parse(response.body)
+response = get_response(URI.parse(url))
+result   = JSON.parse(response.body)
 
-notifier = Slack::Notifier.new slack_url, channel: channel, username: 'CoffeeBot', icon_emoji: ':coffee:'
+STDERR.puts "Error: No result."               or exit 1 if (result['data'] or []) == []
+STDERR.puts "Error: #{result['meta']['msg']}" or exit 1 if result['meta']['status'] != 200
+puts "Showing #{result['data']['url']}."
 
-if result['meta']['status'] == 200
-  puts "Showing #{result['data']['url']}."
-  notifier.ping "*<#{result['data']['url']}|Coffee time!>*"
-else
-  STDERR.puts "Error: #{result['meta']['msg']}"
-end
+icon = 'birthday'
+icon = 'koala'     if tags.include? 'koala'
+icon = 'hamburger' if tags.include?('burger') || tags.include?('hamburger') || tags.include?('cheeseburger')
+icon = 'coffee'    if tags.include? 'coffee'
+
+notifier = Slack::Notifier.new slack_url, channel: channel, username: "#{tags.map(&:capitalize).join}Bot", icon_emoji: ":#{icon}:"
+notifier.ping "*<#{result['data']['url']}|#{tags.map(&:capitalize).join '-'} Time!>*"
