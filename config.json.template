@@ -41,5 +41,7 @@
     ...
   },
 
-  "default_team": "team1"
+  "default_team": "team1",
+
+  "giphy_api_key": "xxxxxxxxxxxxx"  // if using giphy-bot, public beta key can be found at https://github.com/Giphy/GiphyAPI
 }

@@ -1,10 +1,10 @@
 
-def load_config()
+def get_slack_config()
   JSON.parse(File.read(File.expand_path('config.json', File.dirname(__FILE__))))
 end
 
 def get_slack_team_config(team_arg)
-  config = load_config()
+  config = get_slack_config()
   if team_arg.nil?
     config['teams'][config['default_team']]
   else

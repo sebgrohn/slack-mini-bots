@@ -9,14 +9,6 @@ require_relative 'slack_common'
 # TODO remove hardcoded message parameters username, icon and message contents;
 #      maybe use a base JSON message file as template and insert GIF?
 
-# TODO extract hardcoded Giphy API key into config file
-
-channel   = get_slack_channel(ARGV[2], ARGV[1])
-slack_url = get_slack_url(ARGV[2], ARGV[3])
-
-tags = ARGV[0].split(' ')
-url  = "http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=g&tag=#{tags.join('+')}"
-
 def get_response(uri, limit = 10)
   response = Net::HTTP.get_response(uri)
   case response
@@ -30,6 +22,15 @@ def get_response(uri, limit = 10)
     response
   end
 end
+
+config    = get_slack_config
+channel   = get_slack_channel(ARGV[2], ARGV[1])
+slack_url = get_slack_url(ARGV[2], ARGV[3])
+
+tags = ARGV[0].split(' ')
+url  = "http://api.giphy.com/v1/gifs/random?api_key=#{config['giphy_api_key']}&rating=g&tag=#{tags.join('+')}"
+
+puts "Getting #{url}"
 
 response = get_response(URI.parse(url))
 result   = JSON.parse(response.body)
