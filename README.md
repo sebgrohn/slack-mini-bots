@@ -1,5 +1,5 @@
 # slack-mini-bots
-Small utility commands for webhooking into [Slack](http://www.slask.com/).
+Small utility commands for webhooking into [Slack](http://www.slack.com/).
 
 
 ## Included scripts
