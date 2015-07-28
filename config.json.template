@@ -16,7 +16,12 @@
         ...
       },
       "default_url":     "webhook1",
-      "default_channel": "@user1"
+      "default_channel": "@user1",
+
+      "birthdays": {  // if using birthday-bot
+        "@user1": "YYYY-MM-DD",
+        ...
+      }
     },
 
     "team2": {
