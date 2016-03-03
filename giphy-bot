@@ -40,6 +40,7 @@ STDERR.puts "Error: #{result['meta']['msg']}" or exit 1 if result['meta']['statu
 puts "Showing #{result['data']['url']}."
 
 icon = 'birthday'
+icon = 'stars'     if tags.include? 'vader'
 icon = 'koala'     if tags.include? 'koala'
 icon = 'hamburger' if tags.include?('burger') || tags.include?('hamburger') || tags.include?('cheeseburger')
 icon = 'coffee'    if tags.include? 'coffee'
